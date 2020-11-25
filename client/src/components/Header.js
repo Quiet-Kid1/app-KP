@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import Logo from '../images/LOGO-KOTA-MANADO.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../actions/userActions';
 
 const Header = () => {
+  const dispatch = useDispatch();
+  //cek store untuk mengetahui state.userLogin darimana
+  const userLogin = useSelector(state => state.userLogin);
+
+  // 3 value ini dari login reducer
+  const { loading, error, userInfo } = userLogin;
+
+  console.log(userInfo);
+
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
+
   const styleLogo = {
     float: 'left',
     marginRight: '10px',
@@ -23,7 +38,7 @@ const Header = () => {
                 style={styleLogo}
               />
               Kelurahan Malalayang I <br />
-              Kabupaten SULUT
+              Kota Manado
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -65,14 +80,46 @@ const Header = () => {
                   <NavDropdown.Item>Data Perkawinan</NavDropdown.Item>
                 </LinkContainer>
               </NavDropdown>
-              <NavDropdown title="Fungsi Admin" id="basic-nav-dropdown">
-                <LinkContainer to="/admin/listwarga">
-                  <NavDropdown.Item>Lihat data warga</NavDropdown.Item>
-                </LinkContainer>
-                <LinkContainer to="/admin/listposts">
-                  <NavDropdown.Item>Lihat List Post</NavDropdown.Item>
-                </LinkContainer>
-              </NavDropdown>
+              {userInfo ? (
+                <>
+                  <NavDropdown title="Fungsi Admin" id="basic-nav-dropdown">
+                    {userInfo.role === 'Lurah' ? (
+                      <>
+                        <LinkContainer to="/admin/listwarga">
+                          <NavDropdown.Item>Lihat data warga</NavDropdown.Item>
+                        </LinkContainer>
+                        <LinkContainer to="/admin/listkeluarga">
+                          <NavDropdown.Item>
+                            Lihat data keluarga
+                          </NavDropdown.Item>
+                        </LinkContainer>
+                        <LinkContainer to="/admin/listposts">
+                          <NavDropdown.Item>Lihat List Post</NavDropdown.Item>
+                        </LinkContainer>
+                      </>
+                    ) : userInfo.role === 'Lingkungan' ? (
+                      <>
+                        <LinkContainer to="/admin/listwarga">
+                          <NavDropdown.Item>Lihat data warga</NavDropdown.Item>
+                        </LinkContainer>
+                        <LinkContainer to="/admin/listkeluarga">
+                          <NavDropdown.Item>
+                            Lihat data keluarga
+                          </NavDropdown.Item>
+                        </LinkContainer>
+                      </>
+                    ) : null}
+                  </NavDropdown>
+                  <NavDropdown title={userInfo.name} id="username">
+                    <LinkContainer to="/admin/profile">
+                      <NavDropdown.Item>Profile</NavDropdown.Item>
+                    </LinkContainer>
+                    <NavDropdown.Item onClick={logoutHandler}>
+                      Logout
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </>
+              ) : null}
             </Nav>
           </Navbar.Collapse>
         </Container>

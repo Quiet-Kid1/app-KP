@@ -1,8 +1,6 @@
 const ListWarga = [
   {
-    _id: '1',
     no_ktp: '7171090907370009',
-    no_keluarga: '911',
     nama: 'Eston Suli',
     agama: 'Kristen Protestan',
     t_lahir: 'Manado',
@@ -17,9 +15,7 @@ const ListWarga = [
     status: 'Hidup',
   },
   {
-    _id: '2',
     no_ktp: '7171090907370019',
-    no_keluarga: '456',
     nama: 'DEETJE C. TINDANGEN',
     agama: 'Islam',
     t_lahir: 'Manado',
@@ -34,9 +30,7 @@ const ListWarga = [
     status: 'Hidup',
   },
   {
-    _id: '3',
     no_ktp: '7171090907370029',
-    no_keluarga: '456',
     nama: 'CHANAN MACHFUDI',
     agama: 'Islam',
     t_lahir: 'Manado',
@@ -51,9 +45,7 @@ const ListWarga = [
     status: 'Hidup',
   },
   {
-    _id: '4',
     no_ktp: '7171090907370039',
-    no_keluarga: '456',
     nama: 'CHARLES V. JACOBUS',
     agama: 'Hindu',
     t_lahir: 'Manado',
@@ -68,9 +60,7 @@ const ListWarga = [
     status: 'Hidup',
   },
   {
-    _id: '5',
     no_ktp: '7171090907370079',
-    no_keluarga: '456',
     nama: 'CHANAN MACHFUDI',
     agama: 'Islam',
     t_lahir: 'Manado',
@@ -85,9 +75,7 @@ const ListWarga = [
     status: 'Hidup',
   },
   {
-    _id: '6',
     no_ktp: '7171090907370027',
-    no_keluarga: '456',
     nama: 'CHATOTJE KALIGIS',
     agama: 'Islam',
     t_lahir: 'Manado',
@@ -102,9 +90,7 @@ const ListWarga = [
     status: 'Hidup',
   },
   {
-    _id: '7',
     no_ktp: '7171090907370034',
-    no_keluarga: '456',
     nama: 'DEITJE SERO',
     agama: 'Khatolik',
     t_lahir: 'Manado',
@@ -119,9 +105,7 @@ const ListWarga = [
     status: 'Hidup',
   },
   {
-    _id: '8',
     no_ktp: '7171090907372049',
-    no_keluarga: '456',
     nama: 'DOLFINES RATOWO',
     agama: 'Islam',
     t_lahir: 'Manado',
@@ -136,9 +120,7 @@ const ListWarga = [
     status: 'Hidup',
   },
   {
-    _id: '9',
     no_ktp: '7171090907330529',
-    no_keluarga: '456',
     nama: 'EDWARD LENDIE TUMBELAKA',
     agama: 'Islam',
     t_lahir: 'Manado',
@@ -153,9 +135,7 @@ const ListWarga = [
     status: 'Hidup',
   },
   {
-    _id: '10',
     no_ktp: '7171090907330729',
-    no_keluarga: '456',
     nama: 'ELSJE MARIE MAIT',
     agama: 'Islam',
     t_lahir: 'Manado',

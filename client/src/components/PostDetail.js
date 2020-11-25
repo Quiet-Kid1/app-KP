@@ -1,44 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import { Container, Card, Row, Col, Image } from 'react-bootstrap';
 import Sidebar from './Sidebar';
-import axios from 'axios';
+import Loader from './Loader';
+import { listPostDetails } from '../actions/postAction';
+import { useDispatch, useSelector } from 'react-redux';
 
 const PostDetail = props => {
-  const [Post, setPost] = useState({});
+  const dispatch = useDispatch();
+
+  //lihat dari store
+  const postDetails = useSelector(state => state.postDetails);
+
+  //lihat dari reducer apa yang di return oleh postDetails
+  const { loading, error, post } = postDetails;
 
   useEffect(() => {
-    const fetchPost = async () => {
-      const response = await axios.get(`/api/posts/${props.match.params.id}`);
-
-      setPost(response.data);
-    };
-
-    fetchPost();
+    dispatch(listPostDetails(props.match.params.id));
   }, [props.match]);
+
   return (
     <>
       <Container className="py-3">
         <Row>
           <Col md={9}>
-            <Card>
-              <Card.Header>{Post.title}</Card.Header>
-              <Card.Body>
-                <Card.Title>
-                  <i class="fas fa-user iconAdmin"></i>
-                  {Post.role}
-                </Card.Title>
-                {Post.image ? (
-                  <>
-                    <Image src={Post.image} alt={Post.title} fluid />
-                    <br />
-                    <br />
-                  </>
-                ) : null}
+            {loading ? (
+              <Loader />
+            ) : (
+              <Card>
+                <Card.Header>{post.title}</Card.Header>
+                <Card.Body>
+                  <Card.Title>
+                    <i class="fas fa-user iconAdmin"></i>
+                    {post.role}
+                  </Card.Title>
+                  {post.image ? (
+                    <>
+                      <Image src={post.image} alt={post.title} fluid />
+                      <br />
+                      <br />
+                    </>
+                  ) : null}
 
-                <Card.Text>{Post.description}</Card.Text>
-              </Card.Body>
-            </Card>
+                  <Card.Text>{post.description}</Card.Text>
+                </Card.Body>
+              </Card>
+            )}
           </Col>
           <Sidebar />
         </Row>
