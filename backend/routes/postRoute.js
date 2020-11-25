@@ -23,7 +23,8 @@ router.get(
     if (post) {
       res.json(post);
     } else {
-      res.status(404).json({ message: 'post not found' });
+      res.status(404);
+      throw new Error('Post not found');
     }
   })
 );

@@ -1,0 +1,40 @@
+const ListKeluarga = [
+  {
+    no_kk: '7171090904120005',
+    nama_kepala: 'Sakuta',
+    alamat: 'Lingkungan V',
+    RT: '',
+    RW: '005',
+    kelurahan: 'Ligkungan V',
+    kecamatan: 'Malalayang',
+    kota: 'Kota Manado',
+    kode_pos: 0,
+    Provinsi: 'Sulawesi Utara',
+  },
+  {
+    no_kk: '7171090904120004',
+    nama_kepala: 'Meldy',
+    alamat: 'Lingkungan IV',
+    RT: '',
+    RW: '015',
+    kelurahan: 'Ligkungan IV',
+    kecamatan: 'Malalayang',
+    kota: 'Kota Manado',
+    kode_pos: 0,
+    Provinsi: 'Sulawesi Utara',
+  },
+  {
+    no_kk: '7171090904120003',
+    nama_kepala: 'Lala',
+    alamat: 'Lingkungan I',
+    RT: '',
+    RW: '035',
+    kelurahan: 'Ligkungan I',
+    kecamatan: 'Malalayang',
+    kota: 'Kota Manado',
+    kode_pos: 0,
+    Provinsi: 'Sulawesi Utara',
+  },
+];
+
+export default ListKeluarga;

@@ -15,7 +15,11 @@ import DataJenisK from './Pages/DataJenisK';
 import DataKelompokUmur from './Pages/DataKelompokUmur';
 import DataPerkawinan from './Pages/DataPerkawinan';
 import ListDataWarga from './PagesAdmin/ListDataWarga';
+import ListDataKeluarga from './PagesAdmin/ListDataKeluarga';
+import DetailKeluarga from './PagesAdmin/DetailKeluarga';
 import ListPosts from './PagesAdmin/ListPosts';
+import Login from './PagesAdmin/Login';
+import ProfileScreen from './PagesAdmin/Profile';
 
 const App = () => {
   return (
@@ -37,7 +41,15 @@ const App = () => {
         />
         <Route path="/data/dataperkawinan" exact component={DataPerkawinan} />
         <Route path="/admin/listwarga" exact component={ListDataWarga} />
+        <Route path="/admin/listkeluarga" exact component={ListDataKeluarga} />
+        <Route
+          path="/admin/detailkeluarga/:id"
+          exact
+          component={DetailKeluarga}
+        />
         <Route path="/admin/listposts" exact component={ListPosts} />
+        <Route path="/admin/login" exact component={Login} />
+        <Route path="/admin/profile" exact component={ProfileScreen} />
       </Switch>
 
       <Footer />
