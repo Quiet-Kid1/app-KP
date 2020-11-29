@@ -20,6 +20,9 @@ import DetailKeluarga from './PagesAdmin/DetailKeluarga';
 import ListPosts from './PagesAdmin/ListPosts';
 import Login from './PagesAdmin/Login';
 import ProfileScreen from './PagesAdmin/Profile';
+import DetailWarga from './PagesAdmin/DetailWarga';
+import ListDataPengguna from './PagesAdmin/ListDataPengguna';
+import EditPengguna from './PagesAdmin/EditPengguna';
 
 const App = () => {
   return (
@@ -47,7 +50,10 @@ const App = () => {
           exact
           component={DetailKeluarga}
         />
+        <Route path="/admin/detailwarga/:id" exact component={DetailWarga} />
         <Route path="/admin/listposts" exact component={ListPosts} />
+        <Route path="/admin/listpengguna" exact component={ListDataPengguna} />
+        <Route path="/admin/user/:id/edit" component={EditPengguna} />
         <Route path="/admin/login" exact component={Login} />
         <Route path="/admin/profile" exact component={ProfileScreen} />
       </Switch>

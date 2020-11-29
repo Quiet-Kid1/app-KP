@@ -30,26 +30,21 @@ app.use('/api/users', usersRoute);
 app.get(
   '/api/listwarga',
   AsyncHandler(async (req, res) => {
-    const wargas = await wargaModel.find({});
+    const wargas = await wargaModel.find({}).populate('no_keluarga', 'no_kk');
 
     res.json(wargas);
   })
 );
 
+//list detail keluarga
 app.get(
-  '/api/listwarga/:id',
+  '/api/detailwarga/:id',
   AsyncHandler(async (req, res) => {
-    const warga = await wargaModel.findById(req.params.id);
-    const keluarga = await keluargaModel.findById(req.params.id);
+    const detailWarga = await wargaModel
+      .findById(req.params.id)
+      .populate('no_keluarga', 'no_kk alamat RT RW kecamatan');
 
-    const test = { ...warga, keluarga };
-
-    if (test) {
-      res.json(test);
-    } else {
-      res.status(404);
-      throw new Error('not found');
-    }
+    res.json(detailWarga);
   })
 );
 

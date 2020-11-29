@@ -18,15 +18,13 @@ const ProfileScreen = ({ location, history }) => {
   //cek store untuk mengetahui state.userLogin darimana
   const userDetails = useSelector(state => state.userDetails);
 
-  // 3 value ini dari login reducer
   const { loading, error, user } = userDetails;
 
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
 
   const userUpdateProfile = useSelector(state => state.userUpdateProfile);
-  var { success } = userUpdateProfile;
-  const redirect = location.search ? location.search.split('=')[1] : '/';
+  const { success } = userUpdateProfile;
 
   useEffect(() => {
     if (!userInfo) {
@@ -87,6 +85,7 @@ const ProfileScreen = ({ location, history }) => {
             type="password"
             placeholder="enter password"
             value={password}
+            required
             onChange={e => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
@@ -96,6 +95,7 @@ const ProfileScreen = ({ location, history }) => {
             type="password"
             placeholder="confirm password"
             value={confirmPassword}
+            required
             onChange={e => setConfirmPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
