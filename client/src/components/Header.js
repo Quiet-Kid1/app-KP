@@ -96,6 +96,11 @@ const Header = () => {
                         <LinkContainer to="/admin/listposts">
                           <NavDropdown.Item>Lihat List Post</NavDropdown.Item>
                         </LinkContainer>
+                        <LinkContainer to="/admin/listpengguna">
+                          <NavDropdown.Item>
+                            Lihat Data Pengguna
+                          </NavDropdown.Item>
+                        </LinkContainer>
                       </>
                     ) : userInfo.role === 'Lingkungan' ? (
                       <>
@@ -106,6 +111,20 @@ const Header = () => {
                           <NavDropdown.Item>
                             Lihat data keluarga
                           </NavDropdown.Item>
+                        </LinkContainer>
+                      </>
+                    ) : userInfo.role === 'Sekertaris' ? (
+                      <>
+                        <LinkContainer to="/admin/listwarga">
+                          <NavDropdown.Item>Lihat data warga</NavDropdown.Item>
+                        </LinkContainer>
+                        <LinkContainer to="/admin/listkeluarga">
+                          <NavDropdown.Item>
+                            Lihat data keluarga
+                          </NavDropdown.Item>
+                        </LinkContainer>
+                        <LinkContainer to="/admin/listposts">
+                          <NavDropdown.Item>Lihat List Post</NavDropdown.Item>
                         </LinkContainer>
                       </>
                     ) : null}

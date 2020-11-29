@@ -1,88 +1,96 @@
 import React, { useState, useEffect } from 'react';
+import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Container, Button } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { listwargas } from '../actions/wargaAction';
+import Loader from '../components/Loader';
 
 const ListDataWarga = props => {
-  const [listWarga, setListWarga] = useState([]);
+  const dispatch = useDispatch();
+
+  //cek store untuk mengetahui state.userLogin darimana
+  const wargaList = useSelector(state => state.wargaList);
+
+  // 3 value ini dari login reducer
+  const { loading, listWarga } = wargaList;
 
   //cek store untuk mengetahui state.userLogin darimana
   const userLogin = useSelector(state => state.userLogin);
 
   // 3 value ini dari login reducer
-  const { loading, error, userInfo } = userLogin;
+  const { userInfo } = userLogin;
 
   useEffect(() => {
     if (!userInfo) {
       props.history.push('/admin/login');
     }
 
-    const fetchLists = async () => {
-      const response = await axios.get('/api/listwarga');
-
-      setListWarga(response.data);
-    };
-
-    fetchLists();
-  }, [listWarga, props.history]);
+    dispatch(listwargas());
+  }, [dispatch, props.history]);
   return (
     <>
       <div className="py-5">
         <Container>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Nomor KTP</th>
-                {/* <th>Nama Keluarga</th> */}
-                <th>Nama</th>
-                <th>Agama</th>
-                <th>Tempat Lahir</th>
-                <th>Umur</th>
-                <th>Jenis Kelamin</th>
-                <th>Gol. Darah</th>
-                <th>Pekerjaan</th>
-                <th>Status Nikah</th>
-                <th>Status</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {listWarga.map((warga, index) => {
-                const today = new Date();
-                const DOB = new Date(warga.tanggal_lahir);
-                const years = today.getFullYear() - DOB.getFullYear();
+          {loading ? (
+            <Loader />
+          ) : (
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nomor KTP</th>
+                  <th>Nomor KK</th>
+                  <th>Nama</th>
+                  <th>Agama</th>
+                  <th>Tempat Lahir</th>
+                  <th>Umur</th>
+                  <th>Jenis Kelamin</th>
+                  <th>Gol. Darah</th>
+                  <th>Pekerjaan</th>
 
-                return (
-                  <>
-                    <tr key={warga._id}>
-                      <td>{index + 1}</td>
-                      <td>{warga.no_ktp}</td>
-                      {/* <td>
-                      <Link to={`/admin/detailkeluarga/${warga.no_keluarga}`}>
-                        {warga.no_keluarga}
-                      </Link>
-                    </td> */}
-                      <td>{warga.nama}</td>
-                      <td>{warga.agama}</td>
-                      <td>{warga.t_lahir}</td>
-                      <td>{years}</td>
-                      <td>{warga.j_kelamin}</td>
-                      <td>{warga.gol_darah}</td>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {listWarga.map((warga, index) => {
+                  const today = new Date();
+                  const DOB = new Date(warga.tanggal_lahir);
+                  const years = today.getFullYear() - DOB.getFullYear();
 
-                      <td>{warga.pekerjaan}</td>
-                      <td>{warga.s_nikah}</td>
-                      <td>{warga.status}</td>
-                      <td>
-                        <Button variant="outline-primary">a</Button>
-                        <Button variant="outline-danger">X</Button>
-                      </td>
-                    </tr>
-                  </>
-                );
-              })}
-            </tbody>
-          </Table>
+                  return (
+                    <>
+                      <tr key={warga._id}>
+                        <td>{index + 1}</td>
+                        <td>{warga.no_ktp}</td>
+                        <td>{warga.no_keluarga.no_kk}</td>
+                        <td>{warga.nama}</td>
+                        <td>{warga.agama}</td>
+                        <td>{warga.t_lahir}</td>
+                        <td>{years}</td>
+                        <td>{warga.j_kelamin}</td>
+                        <td>{warga.gol_darah}</td>
+                        <td>{warga.pekerjaan}</td>
+                        <td>{warga.status}</td>
+                        <td>
+                          <LinkContainer to={`/admin/detailwarga/${warga._id}`}>
+                            <Button variant="outline-primary">
+                              <i class="fas fa-info-circle"></i>
+                            </Button>
+                          </LinkContainer>
+                          <LinkContainer to="/">
+                            <Button variant="outline-danger">
+                              <i class="fas fa-trash-alt"></i>
+                            </Button>
+                          </LinkContainer>
+                        </td>
+                      </tr>
+                    </>
+                  );
+                })}
+              </tbody>
+            </Table>
+          )}
         </Container>
       </div>
     </>

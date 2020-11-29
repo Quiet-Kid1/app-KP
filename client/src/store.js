@@ -6,7 +6,15 @@ import {
   userLoginReducer,
   userDetailsReducer,
   userUpdateProfileReducer,
+  userListReducer,
+  userDeleteReducer,
+  userUpdateReducer,
 } from './reducer/userReducer';
+
+import {
+  wargaListReducer,
+  wargaListDetailsReducer,
+} from './reducer/wargaReducer';
 
 const reducer = combineReducers({
   postList: postListReducer,
@@ -14,6 +22,11 @@ const reducer = combineReducers({
   userLogin: userLoginReducer,
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
+  userList: userListReducer,
+  userDelete: userDeleteReducer,
+  userUpdate: userUpdateReducer,
+  wargaList: wargaListReducer,
+  wargaListDetails: wargaListDetailsReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
