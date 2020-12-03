@@ -1,32 +1,77 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import FormContainer from '../components/FormContainer';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Form, Button, Row, Col, Container } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { listwargaDetails } from '../actions/wargaAction';
+import { createWarga } from '../actions/wargaAction';
+import { WARGA_CREATE_RESET } from '../constants/wargaConstants';
 
-const DetailWarga = ({ match }) => {
-  const wargaId = match.params.id;
-  const [tanggal_lahir, setTanggal_lahir] = useState(new Date());
+const DetailWarga = ({ history }) => {
   const dispatch = useDispatch();
+
+  const [nama, setNama] = useState('');
+  const [no_ktp, setNo_ktp] = useState('');
+  const [no_keluarga, setNo_keluarga] = useState('');
+  const [agama, setAgama] = useState('');
+  const [t_lahir, setT_lahir] = useState('');
+  const [tanggal_lahir, setTanggal_lahir] = useState(new Date());
+  const [j_kelamin, setJ_kelamin] = useState('');
+  const [lingkungan, setLingkungan] = useState('');
+  const [gol_darah, setGol_darah] = useState('');
+  const [w_negara, setW_negara] = useState('');
+  const [pendidikan, setPendidikan] = useState('');
+  const [pekerjaan, setPekerjaan] = useState('');
+  const [s_nikah, setS_nikah] = useState('');
+  const [status, setStatus] = useState('');
+  const [listKeluarga, setListKeluarga] = useState([]);
 
   //lihat dari store
   const wargaListDetails = useSelector(state => state.wargaListDetails);
+  const { loading, error } = wargaListDetails;
 
-  //lihat dari reducer apa yang di return oleh postDetails
-  const { loading, error, warga } = wargaListDetails;
+  //lihat dari store
+  const wargaCreate = useSelector(state => state.wargaCreate);
+  const { success: successCreate } = wargaCreate;
 
   useEffect(() => {
-    if (!warga.nama || warga._id !== wargaId) {
-      dispatch(listwargaDetails(wargaId));
-    } else {
-      setTanggal_lahir(new Date(warga.tanggal_lahir));
+    if (successCreate) {
+      dispatch({ type: WARGA_CREATE_RESET });
+      history.push('/admin/listwarga');
     }
-  }, [dispatch, match, warga.tanggal_lahir]);
+    const fetchKeluarga = async () => {
+      const response = await axios.get('/api/listkeluarga');
+
+      setListKeluarga(response.data);
+    };
+    fetchKeluarga();
+  }, [dispatch, listKeluarga]);
+
+  const submitHandler = event => {
+    event.preventDefault();
+
+    dispatch(
+      createWarga({
+        nama,
+        no_ktp,
+        no_keluarga,
+        agama,
+        t_lahir,
+        tanggal_lahir: new Date(tanggal_lahir),
+        j_kelamin,
+        lingkungan,
+        gol_darah,
+        w_negara,
+        pendidikan,
+        pekerjaan,
+        s_nikah,
+        status,
+      })
+    );
+  };
 
   return (
     <FormContainer>
@@ -36,23 +81,16 @@ const DetailWarga = ({ match }) => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
-          <Row className="align-items-center">
-            <Col className="text-right">
-              <LinkContainer to={`/admin/${warga._id}/edit`}>
-                <Button className="my-3">
-                  <i className="fas fa-edit"></i> {''}Edit Data Warga
-                </Button>
-              </LinkContainer>
-            </Col>
-          </Row>
-          <h3>Detail Warga bernama {warga.nama}</h3>
-          <Form>
+          <h3>Buat Data Warga</h3>
+          <Form onSubmit={submitHandler}>
             <Form.Group controlId="name">
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="enter name"
-                value={warga.nama}
+                value={nama}
+                onChange={e => setNama(e.target.value)}
+                required
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="noKtp">
@@ -60,7 +98,8 @@ const DetailWarga = ({ match }) => {
               <Form.Control
                 type="text"
                 placeholder="enter email"
-                value={warga.no_ktp}
+                value={no_ktp}
+                onChange={e => setNo_ktp(e.target.value)}
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="agama">
@@ -68,22 +107,24 @@ const DetailWarga = ({ match }) => {
               <Form.Control
                 type="text"
                 placeholder="enter password"
-                value={warga.agama}
+                value={agama}
+                onChange={e => setAgama(e.target.value)}
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="tLahir">
               <Form.Label>Tempat Lahir</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="confirm password"
-                value={warga.t_lahir}
+                placeholder="Masukkan Tempat Lahir"
+                value={t_lahir}
+                onChange={e => setT_lahir(e.target.value)}
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="tanggalLahir">
               <Form.Label>Tanggal Lahir</Form.Label>
-              <br />
               <DatePicker
                 selected={tanggal_lahir}
+                dateFormat="Pp"
                 onChange={date => setTanggal_lahir(date)}
               />
             </Form.Group>
@@ -92,7 +133,8 @@ const DetailWarga = ({ match }) => {
               <Form.Control
                 type="text"
                 placeholder="confirm password"
-                value={warga.j_kelamin}
+                value={j_kelamin}
+                onChange={e => setJ_kelamin(e.target.value)}
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="lingkungan">
@@ -100,7 +142,8 @@ const DetailWarga = ({ match }) => {
               <Form.Control
                 type="text"
                 placeholder="confirm password"
-                value={warga.lingkungan}
+                value={lingkungan}
+                onChange={e => setLingkungan(e.target.value)}
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="gol_darah">
@@ -108,31 +151,35 @@ const DetailWarga = ({ match }) => {
               <Form.Control
                 type="text"
                 placeholder="confirm password"
-                value={warga.gol_darah}
+                value={gol_darah}
+                onChange={e => setGol_darah(e.target.value)}
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="w_negara">
               <Form.Label>Warga Negara</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="confirm password"
-                value={warga.w_negara}
+                placeholder="Masukkan Warga Negara"
+                value={w_negara}
+                onChange={e => setW_negara(e.target.value)}
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="pendidikan">
               <Form.Label>Pendidikan</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="confirm password"
-                value={warga.pendidikan}
+                placeholder="Masukkan Pendidikan"
+                value={pendidikan}
+                onChange={e => setPendidikan(e.target.value)}
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="pekerjaan">
               <Form.Label>Pekerjaan</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="confirm password"
-                value={warga.pekerjaan}
+                placeholder="Masukkan Pekerjaan Warga"
+                value={pekerjaan}
+                onChange={e => setPekerjaan(e.target.value)}
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="s_nikah">
@@ -140,7 +187,8 @@ const DetailWarga = ({ match }) => {
               <Form.Control
                 type="text"
                 placeholder="confirm password"
-                value={warga.s_nikah}
+                value={s_nikah}
+                onChange={e => setS_nikah(e.target.value)}
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="status">
@@ -148,55 +196,26 @@ const DetailWarga = ({ match }) => {
               <Form.Control
                 type="text"
                 placeholder="confirm password"
-                value={warga.status}
+                value={status}
+                onChange={e => setStatus(e.target.value)}
               ></Form.Control>
             </Form.Group>
-            {!warga.no_keluarga ? (
-              <Loader />
-            ) : (
-              <>
-                <Form.Group controlId="no_kk">
-                  <Form.Label>No KK</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="confirm password"
-                    value={warga.no_keluarga.no_kk}
-                  ></Form.Control>
-                </Form.Group>
-                <Form.Group controlId="alamat">
-                  <Form.Label>Alamat</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="confirm password"
-                    value={warga.no_keluarga.alamat}
-                  ></Form.Control>
-                </Form.Group>
-                <Form.Group controlId="RT">
-                  <Form.Label>RT</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="confirm password"
-                    value={warga.no_keluarga.RT}
-                  ></Form.Control>
-                </Form.Group>
-                <Form.Group controlId="RW">
-                  <Form.Label>RW</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="confirm password"
-                    value={!warga.no_keluarga.RW ? '/' : warga.no_keluarga.RW}
-                  ></Form.Control>
-                </Form.Group>
-                <Form.Group controlId="kecamatan">
-                  <Form.Label>Kecamatan</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="confirm password"
-                    value={warga.no_keluarga.kecamatan}
-                  ></Form.Control>
-                </Form.Group>
-              </>
-            )}
+            <Form.Group controlId="keluarga">
+              <Form.Label>Keluarga</Form.Label>
+              <Form.Control
+                as="select"
+                type="text"
+                value={no_keluarga}
+                onChange={e => setNo_keluarga(e.target.value)}
+              >
+                {listKeluarga.map(keluarga => (
+                  <option value={keluarga._id}>{keluarga.no_kk}</option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+            <Button type="submit" variant="primary">
+              Buat
+            </Button>
           </Form>
         </>
       )}

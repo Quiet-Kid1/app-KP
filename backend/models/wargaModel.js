@@ -24,7 +24,7 @@ const wargaSchema = mongoose.Schema(
       required: true,
     },
     tanggal_lahir: {
-      type: String,
+      type: Date,
       required: true,
     },
     j_kelamin: {

@@ -23,6 +23,12 @@ import ProfileScreen from './PagesAdmin/Profile';
 import DetailWarga from './PagesAdmin/DetailWarga';
 import ListDataPengguna from './PagesAdmin/ListDataPengguna';
 import EditPengguna from './PagesAdmin/EditPengguna';
+import CreateWarga from './PagesAdmin/CreateWarga';
+import EditWarga from './PagesAdmin/EditWarga';
+import CreateKeluarga from './PagesAdmin/CreateKeluarga';
+import EditKeluarga from './PagesAdmin/EditKeluarga';
+import CreatePost from './PagesAdmin/CreatePost';
+import EditPost from './PagesAdmin/EditPost';
 
 const App = () => {
   return (
@@ -53,6 +59,12 @@ const App = () => {
         <Route path="/admin/detailwarga/:id" exact component={DetailWarga} />
         <Route path="/admin/listposts" exact component={ListPosts} />
         <Route path="/admin/listpengguna" exact component={ListDataPengguna} />
+        <Route path="/admin/create/warga" exact component={CreateWarga} />
+        <Route path="/admin/create/post" exact component={CreatePost} />
+        <Route path="/admin/create/keluarga" exact component={CreateKeluarga} />
+        <Route path="/admin/:id/edit" exact component={EditWarga} />
+        <Route path="/admin/:id/editkeluarga" exact component={EditKeluarga} />
+        <Route path="/admin/:id/editpost" exact component={EditPost} />
         <Route path="/admin/user/:id/edit" component={EditPengguna} />
         <Route path="/admin/login" exact component={Login} />
         <Route path="/admin/profile" exact component={ProfileScreen} />

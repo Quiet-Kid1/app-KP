@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Sakurajima from '../images/pict1.png';
 import Sakurajima2 from '../images/pict2.jpg';
 import Sidebar from '../components/Sidebar';
+import ReactHtmlParser from 'react-html-parser';
 
 //redux
 import { listPosts } from '../actions/postAction';
@@ -83,7 +84,9 @@ const HomeScreen = () => {
                 <h2>Artikel Terkini</h2>
                 <hr></hr>
                 {posts.map(post => {
-                  const potong = post.description.substring(0, 305);
+                  const potong = ReactHtmlParser(
+                    post.description.substring(0, 305)
+                  );
                   return (
                     <>
                       <Card key={post._id}>
