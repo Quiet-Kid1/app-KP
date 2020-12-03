@@ -1,7 +1,13 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { postListReducer, postListDetails } from './reducer/postReducer';
+import {
+  postListReducer,
+  postListDetails,
+  postCreateReducer,
+  postDeleteReducer,
+  postUpdateReducer,
+} from './reducer/postReducer';
 import {
   userLoginReducer,
   userDetailsReducer,
@@ -14,11 +20,25 @@ import {
 import {
   wargaListReducer,
   wargaListDetailsReducer,
+  wargaDeleteReducer,
+  wargaCreateReducer,
+  wargaUpdateReducer,
 } from './reducer/wargaReducer';
+
+import {
+  keluargaListReducer,
+  keluargaListDetailsReducer,
+  keluargaCreateReducer,
+  keluargaDeleteReducer,
+  keluargaUpdateReducer,
+} from './reducer/keluargaReducer';
 
 const reducer = combineReducers({
   postList: postListReducer,
   postDetails: postListDetails,
+  postCreate: postCreateReducer,
+  postDelete: postDeleteReducer,
+  postUpdate: postUpdateReducer,
   userLogin: userLoginReducer,
   userDetails: userDetailsReducer,
   userUpdateProfile: userUpdateProfileReducer,
@@ -27,6 +47,14 @@ const reducer = combineReducers({
   userUpdate: userUpdateReducer,
   wargaList: wargaListReducer,
   wargaListDetails: wargaListDetailsReducer,
+  wargaDelete: wargaDeleteReducer,
+  wargaCreate: wargaCreateReducer,
+  wargaUpdate: wargaUpdateReducer,
+  keluargaList: keluargaListReducer,
+  keluargaListDetails: keluargaListDetailsReducer,
+  keluargaCreate: keluargaCreateReducer,
+  keluargaDelete: keluargaDeleteReducer,
+  keluargaUpdate: keluargaUpdateReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

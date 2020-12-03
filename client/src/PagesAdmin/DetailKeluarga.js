@@ -1,28 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { Table, Container, Row, Col, ListGroup, Alert } from 'react-bootstrap';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { listKeluargaDetails } from '../actions/keluargaAction';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
 
-const DetailKeluarga = props => {
-  const [detailKeluarga, setdetailKeluarga] = useState([]);
+const DetailKeluarga = ({ match }) => {
+  const keluargaId = match.params.id;
+  const dispatch = useDispatch();
+
+  //lihat dari store
+  const keluargaListDetails = useSelector(state => state.keluargaListDetails);
+
+  //lihat dari reducer apa yang di return oleh postDetails
+  const { error, keluarga: detailKeluarga } = keluargaListDetails;
 
   useEffect(() => {
-    const fetchDetail = async () => {
-      const response = await axios.get(
-        `/api/keluargawarga/${props.match.params.id}`
-      );
-
-      setdetailKeluarga(response.data);
-    };
-
-    fetchDetail();
-  }, [props.match]);
+    if (detailKeluarga.length === 0 || detailKeluarga._id !== keluargaId) {
+      dispatch(listKeluargaDetails(keluargaId));
+    }
+  }, [match]);
 
   console.log(detailKeluarga);
   return (
     <Container className="py-4">
-      {detailKeluarga.length === 0 ? (
-        <h2 style={{ textAlign: 'center' }}>Memuat detail keluarga....</h2>
+      {error ? (
+        <Message variant="danger">{error}</Message>
+      ) : detailKeluarga.length === 0 ? (
+        <Loader />
       ) : (
         <>
           <h2 style={{ textAlign: 'center' }}>Detail Keluarga</h2>

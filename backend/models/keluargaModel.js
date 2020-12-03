@@ -17,6 +17,7 @@ const keluargaSchema = mongoose.Schema(
     },
     RT: {
       type: String,
+      default: '-',
     },
     RW: {
       type: String,
