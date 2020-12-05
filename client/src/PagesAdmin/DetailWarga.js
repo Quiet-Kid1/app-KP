@@ -51,7 +51,7 @@ const DetailWarga = ({ match }) => {
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="enter name"
+                placeholder="Masukkan Nama"
                 value={warga.nama}
               ></Form.Control>
             </Form.Group>
@@ -59,7 +59,7 @@ const DetailWarga = ({ match }) => {
               <Form.Label>Nomor KTP</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="enter email"
+                placeholder="Masukkan Nomor KTP"
                 value={warga.no_ktp}
               ></Form.Control>
             </Form.Group>
@@ -67,7 +67,7 @@ const DetailWarga = ({ match }) => {
               <Form.Label>Agama</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="enter password"
+                placeholder="Masukkan Agama"
                 value={warga.agama}
               ></Form.Control>
             </Form.Group>
@@ -75,7 +75,7 @@ const DetailWarga = ({ match }) => {
               <Form.Label>Tempat Lahir</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="confirm password"
+                placeholder="Masukkan Tempat Lahir"
                 value={warga.t_lahir}
               ></Form.Control>
             </Form.Group>

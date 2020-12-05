@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Container, Button, Row, Col } from 'react-bootstrap';
+import { Container, Button, Row, Col } from 'react-bootstrap';
+import MUIDataTable from 'mui-datatables';
 import { useDispatch, useSelector } from 'react-redux';
 import { listwargas, deleteWarga } from '../actions/wargaAction';
 import Loader from '../components/Loader';
@@ -25,11 +26,7 @@ const ListDataWarga = props => {
 
   //cek store untuk mengetahui state.userLogin darimana
   const wargaDelete = useSelector(state => state.wargaDelete);
-  const {
-    loading: loadingDelete,
-    error: errorDelete,
-    success: successDelete,
-  } = wargaDelete;
+  const { error: errorDelete, success: successDelete } = wargaDelete;
 
   useEffect(() => {
     if (!userInfo) {
@@ -51,6 +48,154 @@ const ListDataWarga = props => {
       keluarga: item.no_keluarga[0].no_kk,
     };
   });
+
+  const rows = listWarga.map(warga => {
+    if (!userInfo.pala) {
+      var authorizeEdit = (
+        <LinkContainer to={`/admin/detailwarga/${warga._id}`}>
+          <Button variant="outline-primary">
+            <i class="fas fa-info-circle"></i>
+          </Button>
+        </LinkContainer>
+      );
+      var authorizeDelete = (
+        <Button
+          variant="outline-danger"
+          onClick={() => deleteHandler(warga._id)}
+        >
+          <i class="fas fa-trash"></i>
+        </Button>
+      );
+    } else {
+      if (userInfo.pala === warga.lingkungan) {
+        var authorizeEdit = (
+          <LinkContainer to={`/admin/detailwarga/${warga._id}`}>
+            <Button variant="outline-primary">
+              <i class="fas fa-info-circle"></i>
+            </Button>
+          </LinkContainer>
+        );
+        var authorizeDelete = (
+          <Button
+            variant="outline-danger"
+            onClick={() => deleteHandler(warga._id)}
+          >
+            <i class="fas fa-trash"></i>
+          </Button>
+        );
+      }
+    }
+
+    return {
+      no_ktp: warga.no_ktp,
+      no_keluarga: warga.no_keluarga[0].no_kk,
+      nama: warga.nama,
+      agama: warga.agama,
+      t_lahir: warga.t_lahir,
+      umurWarga: warga.UmurWarga,
+      j_kelamin: warga.j_kelamin,
+      gol_darah: warga.gol_darah,
+      pekerjaan: warga.pekerjaan,
+      lingkungan: warga.lingkungan,
+      edit: authorizeEdit,
+      hapus: authorizeDelete,
+    };
+  });
+
+  const columns = [
+    {
+      label: 'Nomor KTP',
+      name: 'no_ktp',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      label: 'Nomor KK',
+      name: 'no_keluarga',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      label: 'Nama',
+      name: 'nama',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      label: 'Agama',
+      name: 'agama',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      label: 'Tempat Lahir',
+      name: 't_lahir',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      label: 'Umur',
+      name: 'umurWarga',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      label: 'Jenis Kelamin',
+      name: 'j_kelamin',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      label: 'Pekerjaan',
+      name: 'pekerjaan',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      label: 'Lingkungan',
+      name: 'lingkungan',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      label: 'Edit',
+      name: 'edit',
+      options: {
+        filter: false,
+        sort: false,
+      },
+    },
+    {
+      label: 'Hapus',
+      name: 'hapus',
+      options: {
+        filter: false,
+        sort: false,
+      },
+    },
+  ];
+  const options = {
+    download: false,
+    print: false,
+  };
 
   return (
     <>
@@ -99,63 +244,7 @@ const ListDataWarga = props => {
           {loading ? (
             <Loader />
           ) : (
-            <>
-              <Table striped bordered hover id="table-to-xls">
-                <thead>
-                  <tr>
-                    <th>No</th>
-                    <th>Nomor KTP</th>
-                    <th>Nomor KK</th>
-                    <th>Nama</th>
-                    <th>Agama</th>
-                    <th>Tempat Lahir</th>
-                    <th>Umur</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Gol. Darah</th>
-                    <th>Pekerjaan</th>
-
-                    <th>Status</th>
-                    <th>Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {listWarga.map((warga, index) => {
-                    return (
-                      <>
-                        <tr key={warga._id}>
-                          <td>{index + 1}</td>
-                          <td>{warga.no_ktp}</td>
-                          <td>{warga.no_keluarga[0].no_kk}</td>
-                          <td>{warga.nama}</td>
-                          <td>{warga.agama}</td>
-                          <td>{warga.t_lahir}</td>
-                          <td>{warga.UmurWarga}</td>
-                          <td>{warga.j_kelamin}</td>
-                          <td>{warga.gol_darah}</td>
-                          <td>{warga.pekerjaan}</td>
-                          <td>{warga.status}</td>
-                          <td>
-                            <LinkContainer
-                              to={`/admin/detailwarga/${warga._id}`}
-                            >
-                              <Button variant="outline-primary">
-                                <i class="fas fa-info-circle"></i>
-                              </Button>
-                            </LinkContainer>
-                            <Button
-                              variant="outline-danger"
-                              onClick={() => deleteHandler(warga._id)}
-                            >
-                              <i class="fas fa-trash"></i>
-                            </Button>
-                          </td>
-                        </tr>
-                      </>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            </>
+            <MUIDataTable data={rows} columns={columns} options={options} />
           )}
         </Container>
       </div>

@@ -133,9 +133,11 @@ const Header = () => {
                     <LinkContainer to="/admin/profile">
                       <NavDropdown.Item>Profile</NavDropdown.Item>
                     </LinkContainer>
-                    <NavDropdown.Item onClick={logoutHandler}>
-                      Logout
-                    </NavDropdown.Item>
+                    <LinkContainer to="/admin/login">
+                      <NavDropdown.Item onClick={logoutHandler}>
+                        Logout
+                      </NavDropdown.Item>
+                    </LinkContainer>
                   </NavDropdown>
                 </>
               ) : null}

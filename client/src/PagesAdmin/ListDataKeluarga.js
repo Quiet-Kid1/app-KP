@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Table, Button, Container, Row, Col } from 'react-bootstrap';
+import { Button, Container, Row, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { listKeluargas, deleteKeluarga } from '../actions/keluargaAction';
+import MUIDataTable from 'mui-datatables';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
@@ -34,6 +35,115 @@ const ListDataKeluarga = props => {
     }
   };
 
+  const rows = listKeluarga.map(keluarga => {
+    return {
+      no_kk: (
+        <Link to={`/admin/detailkeluarga/${keluarga._id}`}>
+          {keluarga.no_kk}
+        </Link>
+      ),
+      nama_kepala: keluarga.nama_kepala,
+      alamat: keluarga.alamat,
+      RW: keluarga.RW,
+      kelurahan: keluarga.kelurahan,
+      kecamatan: keluarga.kecamatan,
+      Provinsi: keluarga.Provinsi,
+      edit: (
+        <LinkContainer to={`/admin/${keluarga._id}/editkeluarga`}>
+          <Button variant="outline-primary">
+            <i class="fas fa-edit"></i>
+          </Button>
+        </LinkContainer>
+      ),
+      delete: (
+        <Button
+          variant="outline-danger"
+          onClick={() => deleteHandler(keluarga._id)}
+        >
+          <i class="fas fa-trash"></i>
+        </Button>
+      ),
+    };
+  });
+
+  const columns = [
+    {
+      label: 'Nomor KK',
+      name: 'no_kk',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      label: 'Kepala Keluarga',
+      name: 'nama_kepala',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      label: 'Alamat',
+      name: 'alamat',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      label: 'RW',
+      name: 'RW',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      label: 'Kelurahan',
+      name: 'kelurahan',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      label: 'Kecamatan',
+      name: 'kecamatan',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      label: 'Provinsi',
+      name: 'Provinsi',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      label: 'Edit',
+      name: 'edit',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      label: 'Hapus',
+      name: 'delete',
+      options: {
+        filter: true,
+        sort: true,
+      },
+    },
+  ];
+  const options = {
+    filterType: 'checkbox',
+  };
+
   return (
     <>
       <div className="py-5">
@@ -54,58 +164,7 @@ const ListDataKeluarga = props => {
           {loading ? (
             <Loader />
           ) : (
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>No</th>
-                  <th>Nomor KK</th>
-                  <th>Nama Kepala</th>
-                  <th>Alamat</th>
-                  <th>RT</th>
-                  <th>RW</th>
-                  <th>Kelurahan</th>
-                  <th>Kecamatan</th>
-                  <th>Provinsi</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                {listKeluarga.map((keluarga, index) => {
-                  return (
-                    <>
-                      <tr key={keluarga._id}>
-                        <td>{index + 1}</td>
-                        <Link to={`/admin/detailkeluarga/${keluarga._id}`}>
-                          <td>{keluarga.no_kk}</td>
-                        </Link>
-                        <td>{keluarga.nama_kepala}</td>
-                        <td>{keluarga.alamat}</td>
-                        <td>{keluarga.RT}</td>
-                        <td>{keluarga.RW}</td>
-                        <td>{keluarga.kelurahan}</td>
-                        <td>{keluarga.kecamatan}</td>
-                        <td>{keluarga.Provinsi}</td>
-                        <td>
-                          <LinkContainer
-                            to={`/admin/${keluarga._id}/editkeluarga`}
-                          >
-                            <Button variant="outline-primary">
-                              <i class="fas fa-edit"></i>
-                            </Button>
-                          </LinkContainer>
-                          <Button
-                            variant="outline-danger"
-                            onClick={() => deleteHandler(keluarga._id)}
-                          >
-                            <i class="fas fa-trash"></i>
-                          </Button>
-                        </td>
-                      </tr>
-                    </>
-                  );
-                })}
-              </tbody>
-            </Table>
+            <MUIDataTable data={rows} columns={columns} options={options} />
           )}
         </Container>
       </div>
