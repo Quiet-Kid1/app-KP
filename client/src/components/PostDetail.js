@@ -5,6 +5,8 @@ import Sidebar from './Sidebar';
 import Loader from './Loader';
 import { listPostDetails } from '../actions/postAction';
 import { useDispatch, useSelector } from 'react-redux';
+import ReactHtmlParser from 'react-html-parser';
+import Disqus from 'disqus-react';
 
 const PostDetail = props => {
   const dispatch = useDispatch();
@@ -18,6 +20,14 @@ const PostDetail = props => {
   useEffect(() => {
     dispatch(listPostDetails(props.match.params.id));
   }, [props.match]);
+
+  const disqusShortname = 'kelurahan-2';
+  const disqusConfig = {
+    url: `http://localhost:3000/artikel/${post._id}`,
+    identifier: post._id,
+    title: post.title,
+    language: 'id',
+  };
 
   return (
     <>
@@ -42,10 +52,14 @@ const PostDetail = props => {
                     </>
                   ) : null}
 
-                  <Card.Text>{post.description}</Card.Text>
+                  <Card.Text>{ReactHtmlParser(post.description)}</Card.Text>
                 </Card.Body>
               </Card>
             )}
+            <Disqus.DiscussionEmbed
+              shortname={disqusShortname}
+              config={disqusConfig}
+            />
           </Col>
           <Sidebar />
         </Row>

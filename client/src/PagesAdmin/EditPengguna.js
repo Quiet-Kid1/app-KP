@@ -58,7 +58,7 @@ const UserEditScreen = ({ match, history }) => {
     <>
       <Link to="/admin/userlist" className="btn btn-light my-3"></Link>
       <FormContainer>
-        <h1>Edit Pengguna</h1>
+        <h1>Ubah Pengguna</h1>
         {loadingUpdate && <Loader />}
         {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
         {loading ? (
@@ -68,7 +68,7 @@ const UserEditScreen = ({ match, history }) => {
         ) : (
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="name">
-              <Form.Label>Name</Form.Label>
+              <Form.Label>Nama</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="enter name"
@@ -77,7 +77,7 @@ const UserEditScreen = ({ match, history }) => {
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="email">
-              <Form.Label>Email adress</Form.Label>
+              <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="enter email"
@@ -86,7 +86,7 @@ const UserEditScreen = ({ match, history }) => {
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="role">
-              <Form.Label>Role</Form.Label>
+              <Form.Label>Peran</Form.Label>
               <Form.Control
                 as="select"
                 type="text"
@@ -100,7 +100,7 @@ const UserEditScreen = ({ match, history }) => {
             </Form.Group>
 
             <Button type="submit" variant="primary">
-              Update
+              Ubah
             </Button>
           </Form>
         )}

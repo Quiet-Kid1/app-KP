@@ -98,7 +98,7 @@ const DetailKeluarga = ({ match }) => {
                                 <td>{list.nama}</td>
                                 <td>{list.no_ktp}</td>
                                 <td>{list.j_kelamin}</td>
-                                <td>{list.tanggal_lahir}</td>
+                                <td>{list.tanggal_lahir.substring(0, 10)}</td>
                                 <td>{list.agama}</td>
                                 <td>{list.pendidikan}</td>
                                 <td>{list.pekerjaan}</td>
@@ -112,7 +112,6 @@ const DetailKeluarga = ({ match }) => {
                         <tr>
                           <th>No</th>
                           <th>Status Perkawinan</th>
-                          <th>Status Hubungan Dalam Keluarga</th>
                           <th>Kewarganegaraan</th>
                           {/* <tr>
                         <th colSpan="4">Nama Orang Tua</th>
@@ -121,8 +120,6 @@ const DetailKeluarga = ({ match }) => {
                         <th>Ayah</th>
                         <th>Ibu</th>
                       </tr> */}
-                          <th>Ayah</th>
-                          <th>Ibu</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -132,10 +129,7 @@ const DetailKeluarga = ({ match }) => {
                               <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>{list.s_nikah}</td>
-                                <td>Kepala Keluarga</td>
                                 <td>WNI</td>
-                                <td>Junus Suli</td>
-                                <td>Adel Thomas</td>
                               </tr>
                             </>
                           );

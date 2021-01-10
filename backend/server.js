@@ -35,6 +35,160 @@ const __dirname = path.resolve();
 
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
+// grafik chart golongan pekerjaan
+app.get(
+  '/api/grafikkelamin',
+  AsyncHandler(async (req, res) => {
+    const grafikKelamin = await wargaModel.aggregate([
+      { $unwind: '$j_kelamin' },
+      { $sortByCount: '$j_kelamin' },
+    ]);
+
+    res.json(grafikKelamin);
+  })
+);
+
+// grafik chart agama
+app.get(
+  '/api/grafikagama',
+  AsyncHandler(async (req, res) => {
+    const grafikAgama = await wargaModel.aggregate([
+      { $unwind: '$agama' },
+      { $sortByCount: '$agama' },
+    ]);
+
+    res.json(grafikAgama);
+  })
+);
+
+// grafik chart pendidikan
+app.get(
+  '/api/grafikpendidikan',
+  AsyncHandler(async (req, res) => {
+    const grafikAgama = await wargaModel.aggregate([
+      { $unwind: '$pendidikan' },
+      { $sortByCount: '$pendidikan' },
+    ]);
+
+    res.json(grafikAgama);
+  })
+);
+
+// grafik chart pekerjaan
+app.get(
+  '/api/grafikpekerjaan',
+  AsyncHandler(async (req, res) => {
+    const grafikAgama = await wargaModel.aggregate([
+      { $unwind: '$pekerjaan' },
+      { $sortByCount: '$pekerjaan' },
+    ]);
+
+    res.json(grafikAgama);
+  })
+);
+
+// grafik chart golongan nikah
+app.get(
+  '/api/grafiknikah',
+  AsyncHandler(async (req, res) => {
+    const grafikNikah = await wargaModel.aggregate([
+      { $unwind: '$s_nikah' },
+      { $sortByCount: '$s_nikah' },
+    ]);
+
+    res.json(grafikNikah);
+  })
+);
+
+// grafik chart golongan darah
+app.get(
+  '/api/grafikgoldar',
+  AsyncHandler(async (req, res) => {
+    const grafikNikah = await wargaModel.aggregate([
+      { $unwind: '$gol_darah' },
+      { $sortByCount: '$gol_darah' },
+    ]);
+
+    res.json(grafikNikah);
+  })
+);
+
+// grafik chart golongan umur
+app.get(
+  '/api/grafikumur',
+  AsyncHandler(async (req, res) => {
+    const wargas = await wargaModel.aggregate([
+      {
+        $project: {
+          age: {
+            $floor: {
+              $divide: [
+                { $subtract: [new Date(), '$tanggal_lahir'] },
+                365 * 24 * 60 * 60 * 1000,
+              ],
+            },
+          },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $concat: [
+              { $cond: [{ $lte: ['$age', 0] }, 'Tidak diketahui', ''] },
+              {
+                $cond: [
+                  { $and: [{ $gte: ['$age', 1] }, { $lte: ['$age', 5] }] },
+                  '1 - 5 Tahun',
+                  '',
+                ],
+              },
+              {
+                $cond: [
+                  { $and: [{ $gte: ['$age', 6] }, { $lte: ['$age', 11] }] },
+                  '6 - 11 Tahun',
+                  '',
+                ],
+              },
+              {
+                $cond: [
+                  { $and: [{ $gte: ['$age', 12] }, { $lte: ['$age', 25] }] },
+                  '12 - 25 Tahun',
+                  '',
+                ],
+              },
+              {
+                $cond: [
+                  { $and: [{ $gte: ['$age', 26] }, { $lte: ['$age', 45] }] },
+                  '26 - 45 Tahun',
+                  '',
+                ],
+              },
+              {
+                $cond: [
+                  { $and: [{ $gte: ['$age', 46] }, { $lte: ['$age', 65] }] },
+                  '46 - 65 Tahun',
+                  '',
+                ],
+              },
+              {
+                $cond: [
+                  { $and: [{ $gte: ['$age', 66] }] },
+                  '66 - atas Tahun',
+                  '',
+                ],
+              },
+            ],
+          },
+          penduduk: { $sum: 1 },
+        },
+      },
+      { $project: { _id: 0, umur: '$_id', penduduk: 1 } },
+    ]);
+
+    res.json(wargas);
+  })
+);
+
 //list warga route
 app.get(
   '/api/listwarga',

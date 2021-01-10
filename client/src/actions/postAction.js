@@ -4,6 +4,9 @@ import {
   POST_LIST_FAIL,
   POST_LIST_REQUEST,
   POST_LIST_SUCCESS,
+  POST_ADMIN_FAIL,
+  POST_ADMIN_REQUEST,
+  POST_ADMIN_SUCCESS,
   POST_DETAILS_FAIL,
   POST_DETAILS_REQUEST,
   POST_DETAILS_SUCCESS,
@@ -16,14 +19,13 @@ import {
   POST_UPDATE_REQUEST,
   POST_UPDATE_SUCCESS,
   POST_UPDATE_FAIL,
-  POST_UPDATE_RESET,
 } from '../constants/postConstants';
 
-export const listPosts = () => async dispatch => {
+export const listPosts = (keyword = '') => async dispatch => {
   try {
     dispatch({ type: POST_LIST_REQUEST });
 
-    const response = await axios.get('/api/posts');
+    const response = await axios.get(`/api/posts?keyword=${keyword}`);
 
     dispatch({
       type: POST_LIST_SUCCESS,
@@ -32,6 +34,27 @@ export const listPosts = () => async dispatch => {
   } catch (error) {
     dispatch({
       type: POST_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.response,
+    });
+  }
+};
+
+export const listAdminPosts = (keyword = '') => async dispatch => {
+  try {
+    dispatch({ type: POST_ADMIN_REQUEST });
+
+    const response = await axios.get(`/api/posts/admin?keyword=${keyword}`);
+
+    dispatch({
+      type: POST_ADMIN_SUCCESS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: POST_ADMIN_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

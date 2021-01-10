@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-
+import Loader from '../components/Loader';
+import axios from 'axios';
 import CanvasJSReact from '../assets/canvasjs.react';
 import Sidebar from '../components/Sidebar';
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const DataPekerjaan = () => {
+  const [grafikP, setGrafikP] = useState([]);
+
+  useEffect(() => {
+    const fetchGrafikP = async () => {
+      const response = await axios.get('/api/grafikpekerjaan');
+
+      setGrafikP(response.data);
+    };
+    fetchGrafikP();
+  }, []);
+
+  const pekerjaan = grafikP.map(grafik => {
+    return {
+      label: grafik._id,
+      y: grafik.count,
+    };
+  });
   const options = {
-    exportEnabled: true,
+    exportEnabled: false,
     animationEnabled: true,
     title: {
       text: 'Grafik Data',
@@ -16,20 +34,12 @@ const DataPekerjaan = () => {
       {
         type: 'pie',
         startAngle: 75,
-        toolTipContent: '<b>{label}</b>: {y}%',
+        toolTipContent: '<b>{label}</b>: {y}',
         showInLegend: 'true',
         legendText: '{label}',
         indexLabelFontSize: 16,
-        indexLabel: '{label} - {y}%',
-        dataPoints: [
-          { y: 18, label: 'Direct' },
-          { y: 49, label: 'Organic Search' },
-          { y: 9, label: 'Paid Search' },
-          { y: 5, label: 'Referral' },
-          { y: 19, label: 'Social' },
-          { y: 19, label: 'Social' },
-          { y: 19, label: 'Social' },
-        ],
+        indexLabel: '{label} - {y}',
+        dataPoints: pekerjaan,
       },
     ],
   };
@@ -41,11 +51,16 @@ const DataPekerjaan = () => {
           <Col md={9}>
             <Card>
               <Card.Header>Demografi Berdasar Pekerjaan</Card.Header>
-              <Card.Body>
-                <Card.Text>
-                  <CanvasJSChart options={options} />
-                </Card.Text>
-              </Card.Body>
+              {grafikP.length === 0 ? (
+                <Loader />
+              ) : (
+                <Card.Body>
+                  <Card.Title>Statistik Kelurahan Malalayang</Card.Title>
+                  <Card.Text>
+                    <CanvasJSChart options={options} />
+                  </Card.Text>
+                </Card.Body>
+              )}
             </Card>
           </Col>
           <Sidebar />

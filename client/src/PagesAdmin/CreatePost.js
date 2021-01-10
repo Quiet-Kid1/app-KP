@@ -69,20 +69,20 @@ const CreatePost = ({ history }) => {
         <Loader />
       ) : (
         <>
-          <h3>Buat Data Post</h3>
+          <h3>Buat Berita</h3>
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="title">
-              <Form.Label>Judul Post</Form.Label>
+              <Form.Label>Judul Berita</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Masukkan Judul Post"
+                placeholder="Masukkan Judul Berita"
                 value={title}
                 onChange={e => setTitle(e.target.value)}
                 required
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="description">
-              <Form.Label>Deskripsi Post</Form.Label>
+              <Form.Label>Deskripsi Berita</Form.Label>
               <CKEditor
                 editor={ClassicEditor}
                 data={description}
@@ -93,16 +93,16 @@ const CreatePost = ({ history }) => {
               />
             </Form.Group>
             <Form.Group controlId="image">
-              <Form.Label>Gambar Post</Form.Label>
+              <Form.Label>Gambar Berita</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="enter image url (opsional)"
+                placeholder="masukkan gambar (opsional)"
                 value={image}
                 onChange={e => setImage(e.target.value)}
               ></Form.Control>
               <Form.File
                 id="image-file"
-                label="Choose File"
+                label="Pilih Gambar"
                 custom
                 onChange={uploadFileHandler}
               ></Form.File>

@@ -8,7 +8,34 @@ import Post from '../models/postModel.js';
 router.get(
   '/',
   AsyncHandler(async (req, res) => {
-    const posts = await Post.find({});
+    const keyword = req.query.keyword
+      ? {
+          title: {
+            $regex: req.query.keyword,
+            $options: 'i',
+          },
+        }
+      : {};
+    const posts = await Post.find({ ...keyword }).sort({ _id: -1 });
+
+    res.json(posts);
+  })
+);
+
+router.get(
+  '/admin',
+  AsyncHandler(async (req, res) => {
+    const keyword = req.query.keyword
+      ? {
+          title: {
+            $regex: req.query.keyword,
+            $options: 'i',
+          },
+        }
+      : {};
+    const posts = await Post.find({ ...keyword })
+      .sort({ _id: -1 })
+      .limit(5);
     res.json(posts);
   })
 );

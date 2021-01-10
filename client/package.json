@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^12.2.2",
     "axios": "^0.21.0",
     "create-react-class": "^15.7.0",
+    "disqus-react": "^1.0.10",
     "material-datatable": "^0.4.1",
     "mui-datatables": "^3.7.1",
     "react": "^17.0.1",
