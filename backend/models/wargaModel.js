@@ -5,6 +5,7 @@ const wargaSchema = mongoose.Schema(
     no_ktp: {
       type: String,
       required: true,
+      unique: true,
     },
     no_keluarga: {
       type: mongoose.Schema.Types.ObjectId,

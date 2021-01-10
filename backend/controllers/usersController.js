@@ -6,9 +6,9 @@ import generateToken from '../utills/generateToken.js';
 // post /api/users/login
 
 const authUsers = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const { name, password } = req.body;
 
-  const user = await User.findOne({ email: email });
+  const user = await User.findOne({ name: name });
 
   if (user && (await user.matchPassword(password))) {
     res.json({
@@ -21,7 +21,7 @@ const authUsers = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(401);
-    throw new Error('kata sandi atau email salah');
+    throw new Error('Nama atau kata sandi salah');
   }
 });
 

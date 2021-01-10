@@ -78,7 +78,7 @@ export const deleteWarga = id => async (dispatch, getState) => {
   }
 };
 
-export const createWarga = dataWarga => async (dispatch, getState) => {
+export const createWarga = dataWarga => async dispatch => {
   try {
     dispatch({
       type: WARGA_CREATE_REQUEST,

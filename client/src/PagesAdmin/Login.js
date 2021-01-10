@@ -8,7 +8,7 @@ import { login } from '../actions/userActions';
 import FormContainer from '../components/FormContainer';
 
 const LoginScreen = ({ location, history }) => {
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const LoginScreen = ({ location, history }) => {
   const submitHandler = event => {
     event.preventDefault();
 
-    dispatch(login(email, password));
+    dispatch(login(name, password));
   };
 
   return (
@@ -39,20 +39,20 @@ const LoginScreen = ({ location, history }) => {
       {error && <Message variant="danger">{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId="email">
-          <Form.Label>Email</Form.Label>
+        <Form.Group controlId="name">
+          <Form.Label>Nama Pengguna</Form.Label>
           <Form.Control
-            type="email"
-            placeholder="masukkan email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
+            type="text"
+            placeholder="masukkan nama"
+            value={name}
+            onChange={e => setName(e.target.value)}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId="password">
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Kata Sandi</Form.Label>
           <Form.Control
             type="password"
-            placeholder="masukkan password"
+            placeholder="masukkan kata sandi"
             value={password}
             onChange={e => setPassword(e.target.value)}
           ></Form.Control>

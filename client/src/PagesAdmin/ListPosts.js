@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Container, Button, Row, Col } from 'react-bootstrap';
+import { Card, Container, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import ReactHtmlParser from 'react-html-parser';
 import { deletePost } from '../actions/postAction';
 import {} from '../constants/postConstants';
+import MUIDataTable from 'mui-datatables';
 
 //redux
 import { listPosts } from '../actions/postAction';
@@ -39,17 +40,114 @@ const ListPosts = props => {
       dispatch(deletePost(id));
     }
   };
+
+  const rows = posts.map(post => {
+    var edit = (
+      <LinkContainer to={`/admin/${post._id}/editpost`}>
+        <Button variant="outline-primary">
+          <i class="fas fa-edit"></i>
+        </Button>
+      </LinkContainer>
+    );
+    var hapus = (
+      <Button variant="outline-danger" onClick={() => deleteHandler(post._id)}>
+        <i class="fas fa-trash"></i>
+      </Button>
+    );
+
+    if (post.image) {
+      var gambar = <img src={post.image} width="100" height="100" />;
+    } else {
+      var gambar = 'gambar tidak dimasukkan';
+    }
+
+    return {
+      title: post.title,
+      description: ReactHtmlParser(post.description.substring(0, 305)),
+      image: gambar,
+      edit: edit,
+      hapus: hapus,
+    };
+  });
+
+  const columns = [
+    {
+      label: 'Judul Berita',
+      name: 'title',
+      options: {
+        filter: true,
+      },
+    },
+    {
+      label: 'Deskripsi Berita',
+      name: 'description',
+      options: {
+        filter: true,
+      },
+    },
+    {
+      label: 'Gambar Berita',
+      name: 'image',
+      options: {
+        filter: true,
+      },
+    },
+    {
+      label: 'Ubah',
+      name: 'edit',
+      options: {
+        filter: true,
+      },
+    },
+    {
+      label: 'Hapus',
+      name: 'hapus',
+      options: {
+        filter: true,
+      },
+    },
+  ];
+
+  const options = {
+    download: false,
+    print: false,
+    textLabels: {
+      pagination: {
+        next: 'Halaman Berikutnya',
+        previous: 'Halaman Sebelumnya',
+        rowsPerPage: 'Baris Perhalaman:',
+        displayRows: 'dari',
+      },
+      toolbar: {
+        search: 'cari',
+        viewColumns: 'Lihat Kolom',
+        filterTable: 'Filter Tabel',
+      },
+      filter: {
+        title: 'filter',
+        reset: 'reset',
+      },
+      viewColumns: {
+        title: 'lihat kolom',
+      },
+      selectedRows: {
+        text: 'baris yang dihapus',
+        delete: 'Hapus',
+      },
+    },
+  };
+
   return (
     <>
       <Container className="py-5">
         <Row className="align-items-center">
           <Col>
-            <h2>Daftar Post Kelurahan Malalayang I</h2>
+            <h2>Daftar Berita Kelurahan Malalayang I</h2>
           </Col>
           <Col className="text-right">
             <LinkContainer to={`/admin/create/post`}>
               <Button className="my-3">
-                <i className="fas fa-plus"></i> Tambah Data Post
+                <i className="fas fa-plus"></i> Tambah Data Berita
               </Button>
             </LinkContainer>
           </Col>
@@ -58,59 +156,7 @@ const ListPosts = props => {
         {posts.length === 0 ? (
           <Loader />
         ) : (
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Judul Post</th>
-                <th>Deskripsi Post</th>
-                <th>Gambar Post</th>
-                <th>Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {posts.map((post, index) => {
-                return (
-                  <>
-                    <tr key={post._id}>
-                      <td>{index + 1}</td>
-                      <td>{post.title}</td>
-                      <td>
-                        {ReactHtmlParser(post.description.substring(0, 305))}
-                        {'......'}
-                      </td>
-                      {post.image ? (
-                        <td>
-                          <img
-                            className="d-block w-100"
-                            width="200"
-                            height="100"
-                            src={post.image}
-                            alt="First slide"
-                          />
-                        </td>
-                      ) : (
-                        <td>Tidak ada gambar yang dimasukkan</td>
-                      )}
-                      <td>
-                        <LinkContainer to={`/admin/${post._id}/editpost`}>
-                          <Button variant="outline-primary">
-                            <i class="fas fa-info-circle"></i>
-                          </Button>
-                        </LinkContainer>
-                        <Button
-                          variant="outline-danger"
-                          onClick={() => deleteHandler(post._id)}
-                        >
-                          <i class="fas fa-trash"></i>
-                        </Button>
-                      </td>
-                    </tr>
-                  </>
-                );
-              })}
-            </tbody>
-          </Table>
+          <MUIDataTable data={rows} columns={columns} options={options} />
         )}
       </Container>
     </>

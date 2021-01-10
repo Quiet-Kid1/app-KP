@@ -9,3 +9,32 @@ body {
 .iconAdmin {
   padding-right: 10px;
 }
+
+/* img {
+  -webkit-filter: blur(5px); 
+  filter: blur(5px);
+} */
+
+.bg-image {
+  width: 100%;
+  top: 0;
+  left: 0;
+  -webkit-filter: blur(3px);
+  filter: blur(3px);
+}
+
+/* .form-control::-webkit-input-placeholder {
+  color: rgb(32, 30, 30);
+}
+.form-control:-moz-placeholder {
+  color: rgb(32, 30, 30);
+}
+.form-control::-moz-placeholder {
+  color: rgb(32, 30, 30);
+}
+.form-control:-ms-input-placeholder {
+  color: rgb(32, 30, 30);
+}
+.form-control::-ms-input-placeholder {
+  color: rgb(32, 30, 30);
+} */

@@ -1,30 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Card } from 'react-bootstrap';
-import axios from 'axios';
 import Loader from '../components/Loader';
+import axios from 'axios';
 import CanvasJSReact from '../assets/canvasjs.react';
 import Sidebar from '../components/Sidebar';
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-const DataJenisK = () => {
-  const [grafikA, setGrafikA] = useState([]);
+const DataGolDar = () => {
+  const [grafikP, setGrafikP] = useState([]);
 
   useEffect(() => {
-    const fetchGrafikA = async () => {
-      const response = await axios.get('/api/grafikagama');
+    const fetchGrafikP = async () => {
+      const response = await axios.get('/api/grafikgoldar');
 
-      setGrafikA(response.data);
+      setGrafikP(response.data);
     };
-    fetchGrafikA();
+    fetchGrafikP();
   }, []);
 
-  const agama = grafikA.map(grafik => {
+  const goldar = grafikP.map(grafik => {
     return {
       label: grafik._id,
       y: grafik.count,
     };
   });
-
   const options = {
     exportEnabled: false,
     animationEnabled: true,
@@ -40,7 +39,7 @@ const DataJenisK = () => {
         legendText: '{label}',
         indexLabelFontSize: 16,
         indexLabel: '{label} - {y}',
-        dataPoints: agama,
+        dataPoints: goldar,
       },
     ],
   };
@@ -51,8 +50,8 @@ const DataJenisK = () => {
         <Row>
           <Col md={9}>
             <Card>
-              <Card.Header>Demografi Berdasar Agama</Card.Header>
-              {grafikA.length === 0 ? (
+              <Card.Header>Demografi Berdasar Pekerjaan</Card.Header>
+              {grafikP.length === 0 ? (
                 <Loader />
               ) : (
                 <Card.Body>
@@ -71,4 +70,4 @@ const DataJenisK = () => {
   );
 };
 
-export default DataJenisK;
+export default DataGolDar;

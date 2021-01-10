@@ -7,7 +7,10 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { POST_UPDATE_RESET } from '../constants/postConstants';
+import {
+  POST_UPDATE_RESET,
+  POST_DETAILS_RESET,
+} from '../constants/postConstants';
 import { listPostDetails, updatePost } from '../actions/postAction';
 
 const EditPost = ({ history, match }) => {
@@ -30,6 +33,7 @@ const EditPost = ({ history, match }) => {
   useEffect(() => {
     if (successUpdate) {
       dispatch({ type: POST_UPDATE_RESET });
+      dispatch({ type: POST_DETAILS_RESET });
       history.push('/admin/listposts');
     } else {
       if (!post.title || post._id !== postId) {
@@ -83,20 +87,20 @@ const EditPost = ({ history, match }) => {
         <Loader />
       ) : (
         <>
-          <h3>Edit Data Post</h3>
+          <h3>Ubah Berita</h3>
           <Form onSubmit={submitHandler}>
             <Form.Group controlId="title">
-              <Form.Label>Judul Post</Form.Label>
+              <Form.Label>Judul Berita</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Masukkan Judul Post"
+                placeholder="Masukkan Judul Berita"
                 value={title}
                 onChange={e => setTitle(e.target.value)}
                 required
               ></Form.Control>
             </Form.Group>
             <Form.Group controlId="description">
-              <Form.Label>Deskripsi Post</Form.Label>
+              <Form.Label>Deskripsi Berita</Form.Label>
               <CKEditor
                 editor={ClassicEditor}
                 data={description}
@@ -107,10 +111,10 @@ const EditPost = ({ history, match }) => {
               />
             </Form.Group>
             <Form.Group controlId="image">
-              <Form.Label>Gambar Post</Form.Label>
+              <Form.Label>Gambar Berita</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="enter image url (opsional)"
+                placeholder="masukkan gambar (opsional)"
                 value={image}
                 onChange={e => setImage(e.target.value)}
                 disabled
@@ -124,7 +128,7 @@ const EditPost = ({ history, match }) => {
               {uploading && <Loader />}
             </Form.Group>
             <Button type="submit" variant="primary">
-              Edit
+              Ubah
             </Button>
           </Form>
         </>

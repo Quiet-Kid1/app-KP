@@ -36,6 +36,42 @@ const ListDataKeluarga = props => {
   };
 
   const rows = listKeluarga.map(keluarga => {
+    if (userInfo.role === 'Lurah' || userInfo.role === 'Sekertaris') {
+      var authorizeEdit = (
+        <LinkContainer to={`/admin/${keluarga._id}/editkeluarga`}>
+          <Button variant="outline-primary">
+            <i class="fas fa-edit"></i>
+          </Button>
+        </LinkContainer>
+      );
+      var authorizeDelete = (
+        <Button
+          variant="outline-danger"
+          onClick={() => deleteHandler(keluarga._id)}
+        >
+          <i class="fas fa-trash"></i>
+        </Button>
+      );
+    } else {
+      if (userInfo.pala === keluarga.alamat) {
+        var authorizeEdit = (
+          <LinkContainer to={`/admin/${keluarga._id}/editkeluarga`}>
+            <Button variant="outline-primary">
+              <i class="fas fa-edit"></i>
+            </Button>
+          </LinkContainer>
+        );
+        var authorizeDelete = (
+          <Button
+            variant="outline-danger"
+            onClick={() => deleteHandler(keluarga._id)}
+          >
+            <i class="fas fa-trash"></i>
+          </Button>
+        );
+      }
+    }
+
     return {
       no_kk: (
         <Link to={`/admin/detailkeluarga/${keluarga._id}`}>
@@ -48,21 +84,8 @@ const ListDataKeluarga = props => {
       kelurahan: keluarga.kelurahan,
       kecamatan: keluarga.kecamatan,
       Provinsi: keluarga.Provinsi,
-      edit: (
-        <LinkContainer to={`/admin/${keluarga._id}/editkeluarga`}>
-          <Button variant="outline-primary">
-            <i class="fas fa-edit"></i>
-          </Button>
-        </LinkContainer>
-      ),
-      delete: (
-        <Button
-          variant="outline-danger"
-          onClick={() => deleteHandler(keluarga._id)}
-        >
-          <i class="fas fa-trash"></i>
-        </Button>
-      ),
+      edit: authorizeEdit,
+      delete: authorizeDelete,
     };
   });
 
@@ -124,7 +147,7 @@ const ListDataKeluarga = props => {
       },
     },
     {
-      label: 'Edit',
+      label: 'Ubah',
       name: 'edit',
       options: {
         filter: true,
@@ -141,7 +164,32 @@ const ListDataKeluarga = props => {
     },
   ];
   const options = {
-    filterType: 'checkbox',
+    download: false,
+    print: false,
+    textLabels: {
+      pagination: {
+        next: 'Halaman Berikutnya',
+        previous: 'Halaman Sebelumnya',
+        rowsPerPage: 'Baris Perhalaman:',
+        displayRows: 'dari',
+      },
+      toolbar: {
+        search: 'cari',
+        viewColumns: 'Lihat Kolom',
+        filterTable: 'Filter Tabel',
+      },
+      filter: {
+        title: 'filter',
+        reset: 'reset',
+      },
+      viewColumns: {
+        title: 'lihat kolom',
+      },
+      selectedRows: {
+        text: 'baris yang dihapus',
+        delete: 'Hapus',
+      },
+    },
   };
 
   return (

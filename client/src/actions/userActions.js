@@ -21,7 +21,7 @@ import {
   USER_LIST_REQUEST,
 } from '../constants/userConstants';
 
-export const login = (email, password) => async dispatch => {
+export const login = (name, password) => async dispatch => {
   try {
     dispatch({
       type: USER_LOGIN_REQUEST,
@@ -35,7 +35,7 @@ export const login = (email, password) => async dispatch => {
 
     const { data } = await axios.post(
       '/api/users/login',
-      { email, password },
+      { name, password },
       config
     );
 

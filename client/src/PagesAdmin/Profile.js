@@ -62,45 +62,45 @@ const ProfileScreen = ({ location, history }) => {
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="name">
-          <Form.Label>Name</Form.Label>
+          <Form.Label>Nama</Form.Label>
           <Form.Control
             type="name"
-            placeholder="enter name"
+            placeholder="Masukkan Nama"
             value={name}
             onChange={e => setName(e.target.value)}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId="email">
-          <Form.Label>Email adress</Form.Label>
+          <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
-            placeholder="enter email"
+            placeholder="Masukkan Email"
             value={email}
             onChange={e => setEmail(e.target.value)}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId="password">
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Masukkan Kata Sandi</Form.Label>
           <Form.Control
             type="password"
-            placeholder="enter password"
+            placeholder="Masukkan Kata Sandi"
             value={password}
             required
             onChange={e => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
         <Form.Group controlId="confirmPassword">
-          <Form.Label>Confirm Password</Form.Label>
+          <Form.Label>Konfirmasi Kata Sandi</Form.Label>
           <Form.Control
             type="password"
-            placeholder="confirm password"
+            placeholder="Konfirmasi Kata Sandi"
             value={confirmPassword}
             required
             onChange={e => setConfirmPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
         <Button type="submit" variant="primary">
-          Update
+          Ubah
         </Button>
       </Form>
     </FormContainer>

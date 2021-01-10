@@ -14,6 +14,7 @@ import DataPekerjaan from './Pages/DataPekerjaan';
 import DataJenisK from './Pages/DataJenisK';
 import DataKelompokUmur from './Pages/DataKelompokUmur';
 import DataPerkawinan from './Pages/DataPerkawinan';
+import DataGolDar from './Pages/DataGoDar';
 import ListDataWarga from './PagesAdmin/ListDataWarga';
 import ListDataKeluarga from './PagesAdmin/ListDataKeluarga';
 import DetailKeluarga from './PagesAdmin/DetailKeluarga';
@@ -36,12 +37,14 @@ const App = () => {
       <Header />
       <Switch>
         <Route path="/" exact component={HomeScreen} />
+        <Route path="/search/:keyword" component={HomeScreen} />
         <Route path="/action" exact component={Action} />
         <Route path="/artikel/:id" exact component={PostDetail} />
         <Route path="/profil/data/:id" exact component={Profil} />
         <Route path="/profil/pemerintahan/:id" exact component={Pemerintahan} />
         <Route path="/data/datapendidikan" exact component={DataPendidikan} />
         <Route path="/data/datapekerjaan" exact component={DataPekerjaan} />
+        <Route path="/data/datagolongandarah" exact component={DataGolDar} />
         <Route path="/data/datajenisk" exact component={DataJenisK} />
         <Route
           path="/data/datakelompokumur"

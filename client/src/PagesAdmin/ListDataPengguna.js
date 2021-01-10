@@ -45,9 +45,9 @@ const ListDataPengguna = ({ history }) => {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Name</th>
+                <th>Nama</th>
                 <th>Email</th>
-                <th>Role</th>
+                <th>Peran</th>
                 <th></th>
               </tr>
             </thead>

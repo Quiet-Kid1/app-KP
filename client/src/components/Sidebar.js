@@ -1,12 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Card } from 'react-bootstrap';
+import axios from 'axios';
+import Loader from './Loader';
 
 import CanvasJSReact from '../assets/canvasjs.react';
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const Sidebar = () => {
+  const [grafikL, setGrafikL] = useState([]);
+
+  useEffect(() => {
+    const fetchGrafikL = async () => {
+      const response = await axios.get('/api/grafikkelamin');
+
+      setGrafikL(response.data);
+    };
+    fetchGrafikL();
+  }, []);
+
+  const kelamin = grafikL.map(grafik => {
+    return {
+      label: grafik._id,
+      y: grafik.count,
+    };
+  });
+
   const options = {
-    exportEnabled: true,
+    exportEnabled: false,
     animationEnabled: true,
     title: {
       text: 'Grafik Data',
@@ -15,16 +35,12 @@ const Sidebar = () => {
       {
         type: 'column',
         startAngle: 75,
-        toolTipContent: '<b>{label}</b>: {y}%',
+        toolTipContent: '<b>{label}</b>: {y}',
         showInLegend: 'true',
         legendText: '{label}',
         indexLabelFontSize: 16,
 
-        dataPoints: [
-          { y: 440, label: 'Laki-Laki' },
-          { y: 560, label: 'Perempuan' },
-          { y: 1000, label: 'Total' },
-        ],
+        dataPoints: kelamin,
       },
     ],
   };
@@ -34,12 +50,16 @@ const Sidebar = () => {
       <Col md={3}>
         <br />
         <Card style={{ width: '18rem' }}>
-          <Card.Body>
-            <Card.Title>Statistik Kelurahan Malalayang</Card.Title>
-            <Card.Text>
-              <CanvasJSChart options={options} />
-            </Card.Text>
-          </Card.Body>
+          {grafikL.length === 0 ? (
+            <Loader />
+          ) : (
+            <Card.Body>
+              <Card.Title>Statistik Kelurahan Malalayang</Card.Title>
+              <Card.Text>
+                <CanvasJSChart options={options} />
+              </Card.Text>
+            </Card.Body>
+          )}
         </Card>
         <br />
         <Card style={{ width: '18rem' }}>
@@ -52,21 +72,6 @@ const Sidebar = () => {
                 height="250"
               ></iframe>
             </Card.Text>
-          </Card.Body>
-        </Card>
-        <br />
-        <Card style={{ width: '18rem' }}>
-          <Card.Body>
-            <Card.Title>Card Title</Card.Title>
-            <Card.Subtitle className="mb-2 text-muted">
-              Card Subtitle
-            </Card.Subtitle>
-            <Card.Text>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </Card.Text>
-            <Card.Link href="#">Card Link</Card.Link>
-            <Card.Link href="#">Another Link</Card.Link>
           </Card.Body>
         </Card>
       </Col>

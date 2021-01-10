@@ -8,6 +8,7 @@ import {
   WARGA_DELETE_SUCCESS,
   WARGA_DETAILS_FAIL,
   WARGA_DETAILS_REQUEST,
+  WARGA_DETAILS_RESET,
   WARGA_DETAILS_SUCCESS,
   WARGA_LIST_FAIL,
   WARGA_LIST_REQUEST,
@@ -39,6 +40,8 @@ export const wargaListDetailsReducer = (state = { warga: {} }, action) => {
       return { loading: false, warga: action.payload };
     case WARGA_DETAILS_FAIL:
       return { loading: false, error: action.payload };
+    case WARGA_DETAILS_RESET:
+      return { warga: {} };
     default:
       return state;
   }
